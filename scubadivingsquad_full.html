@@ -1,0 +1,1155 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Scuba Squad – Deutsche Tauchbasis auf Koh Chang</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&family=Open+Sans:ital,wght@0,300;0,400;0,600;1,300&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { font-family: 'Open Sans', sans-serif; color: #1a1a1a; background: #fff; }
+
+/* ── LANG SYSTEM ── */
+[data-de], [data-en] { display: none; }
+body.lang-de [data-de] { display: revert; }
+body.lang-en [data-en] { display: revert; }
+body.lang-de span[data-de],
+body.lang-en span[data-en] { display: inline; }
+
+/* ── PAGES ── */
+.page { display: none; }
+.page.active { display: block; }
+
+/* ── NAV ── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+  background: rgba(5,15,35,0.96); backdrop-filter: blur(10px);
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 40px; height: 70px;
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+  transition: background 0.3s;
+}
+.nav-logo { cursor: pointer; display: flex; align-items: center; }
+.nav-logo img { height: 36px; display: block; }
+.nav-links { display: flex; align-items: center; gap: 28px; }
+.nav-links a {
+  color: rgba(255,255,255,0.78); font-family: 'Montserrat', sans-serif;
+  font-size: 13px; font-weight: 500; text-decoration: none; letter-spacing: 0.4px;
+  transition: color 0.2s; cursor: pointer;
+}
+.nav-links a:hover { color: #fff; }
+.nav-dropdown { position: relative; }
+.nav-dropdown-toggle {
+  color: rgba(255,255,255,0.78); font-family: 'Montserrat', sans-serif;
+  font-size: 13px; font-weight: 500; cursor: pointer; letter-spacing: 0.4px;
+  display: flex; align-items: center; gap: 4px; white-space: nowrap;
+  user-select: none;
+}
+.nav-dropdown-toggle::after { content: '▾'; font-size: 9px; opacity: 0.6; margin-top: 1px; }
+.nav-dropdown:hover .dropdown-menu { opacity: 1; pointer-events: all; transform: translateY(0); }
+.dropdown-menu {
+  position: absolute; top: 100%; left: -12px; min-width: 210px;
+  background: #0b1a30; border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 10px; padding: 20px 0 8px;
+  opacity: 0; pointer-events: none; transform: translateY(-6px);
+  transition: all 0.18s;
+  margin-top: 0;
+}
+/* invisible bridge so mouse can travel from toggle to menu without gap */
+.nav-dropdown::after {
+  content: ''; position: absolute; top: 100%; left: -20px; right: -20px;
+  height: 20px; background: transparent;
+}
+.dropdown-menu a {
+  display: block; padding: 9px 18px;
+  font-size: 13px; color: rgba(255,255,255,0.72);
+}
+.dropdown-menu a:hover { background: rgba(255,255,255,0.06); color: #fff; }
+.dropdown-section {
+  padding: 10px 18px 4px; font-size: 10px; font-weight: 700;
+  color: rgba(255,255,255,0.3); letter-spacing: 1.8px; text-transform: uppercase;
+}
+.nav-cta {
+  background: #1a7fde; color: #fff !important;
+  padding: 9px 20px; border-radius: 6px; font-weight: 600 !important;
+  white-space: nowrap;
+}
+.nav-cta:hover { background: #1668c0 !important; }
+
+/* Lang switcher */
+.lang-switcher {
+  display: flex; align-items: center;
+  background: rgba(255,255,255,0.08); border-radius: 20px; padding: 3px;
+  margin-left: 6px;
+}
+.lang-btn {
+  border: none; background: transparent; color: rgba(255,255,255,0.5);
+  font-family: 'Montserrat', sans-serif; font-size: 12px; font-weight: 700;
+  padding: 5px 11px; border-radius: 16px; cursor: pointer; transition: all 0.15s;
+  letter-spacing: 0.5px;
+}
+.lang-btn.active { background: #1a7fde; color: #fff; }
+.lang-btn:hover:not(.active) { color: #fff; background: rgba(255,255,255,0.1); }
+
+/* ── SHARED ELEMENTS ── */
+section { padding: 90px 40px; }
+.container { max-width: 1100px; margin: 0 auto; }
+.section-label {
+  font-family: 'Montserrat', sans-serif; font-size: 11px; font-weight: 700;
+  letter-spacing: 3px; text-transform: uppercase; color: #1a7fde; margin-bottom: 12px;
+}
+.section-title {
+  font-family: 'Montserrat', sans-serif;
+  font-size: clamp(22px, 3.2vw, 36px); font-weight: 700;
+  line-height: 1.2; color: #0d1b2a; margin-bottom: 18px;
+}
+.section-text { font-size: 16px; line-height: 1.85; color: #4a4a4a; }
+.btn-primary {
+  background: #1a7fde; color: #fff; border: none;
+  padding: 14px 34px; border-radius: 6px;
+  font-family: 'Montserrat', sans-serif; font-size: 14px; font-weight: 600;
+  letter-spacing: 0.4px; cursor: pointer; transition: all 0.2s;
+  text-decoration: none; display: inline-block;
+}
+.btn-primary:hover { background: #1568c0; transform: translateY(-1px); }
+.btn-outline {
+  background: transparent; color: #fff; border: 2px solid rgba(255,255,255,0.6);
+  padding: 14px 34px; border-radius: 6px;
+  font-family: 'Montserrat', sans-serif; font-size: 14px; font-weight: 600;
+  letter-spacing: 0.4px; cursor: pointer; transition: all 0.2s;
+  text-decoration: none; display: inline-block;
+}
+.btn-outline:hover { border-color: #fff; background: rgba(255,255,255,0.1); }
+.btn-outline-dark {
+  background: transparent; color: #1a7fde; border: 2px solid #1a7fde;
+  padding: 12px 28px; border-radius: 6px;
+  font-family: 'Montserrat', sans-serif; font-size: 14px; font-weight: 600;
+  cursor: pointer; transition: all 0.2s; text-decoration: none; display: inline-block;
+}
+.btn-outline-dark:hover { background: #1a7fde; color: #fff; }
+
+/* ── PAGE: HOME ── */
+/* Hero */
+.hero {
+  position: relative; min-height: 100vh;
+  display: flex; align-items: center; justify-content: center;
+  text-align: center; color: #fff; overflow: hidden;
+}
+.hero-bg {
+  position: absolute; inset: 0; z-index: 0;
+  background: url('https://cdn.prod.website-files.com/66b5c8bc961b45d1287337c6/6707af8d07c187cf159a6667_Team%20Boat%20(1).jpg') center/cover no-repeat;
+}
+.hero-video {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  object-fit: cover; z-index: 1;
+}
+.hero-overlay {
+  position: absolute; inset: 0; z-index: 2;
+  background: linear-gradient(to bottom, rgba(5,15,40,0.5) 0%, rgba(5,15,40,0.38) 55%, rgba(5,15,40,0.65) 100%);
+}
+.hero-content { position: relative; z-index: 3; padding: 0 20px; max-width: 800px; }
+.hero-content h1 {
+  font-family: 'Montserrat', sans-serif;
+  font-size: clamp(34px, 5.5vw, 62px); font-weight: 800;
+  line-height: 1.12; margin-bottom: 16px; letter-spacing: -0.5px;
+  text-shadow: 0 2px 24px rgba(0,0,0,0.25);
+}
+.hero-content .hero-sub {
+  font-size: clamp(14px, 1.8vw, 17px); font-weight: 300;
+  opacity: 0.88; margin-bottom: 42px; letter-spacing: 1.2px;
+}
+.hero-btns { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+.scroll-hint {
+  position: absolute; bottom: 28px; left: 50%; transform: translateX(-50%);
+  z-index: 3; color: rgba(255,255,255,0.45); font-size: 24px;
+  animation: bounce 2.2s ease-in-out infinite;
+}
+@keyframes bounce {
+  0%,100% { transform: translateX(-50%) translateY(0); }
+  50%      { transform: translateX(-50%) translateY(10px); }
+}
+
+/* Reviews bar */
+.reviews-bar {
+  background: #fff; padding: 26px 40px;
+  display: flex; align-items: center; justify-content: center; gap: 48px;
+  border-bottom: 1px solid #ebebeb; flex-wrap: wrap;
+}
+.reviews-bar h2 {
+  font-family: 'Montserrat', sans-serif; font-size: 19px; font-weight: 700; color: #0d1b2a;
+}
+.review-logos { display: flex; align-items: center; gap: 36px; flex-wrap: wrap; }
+.review-logos img { height: 30px; object-fit: contain; }
+
+/* Meet us — two photos side by side, no overlap */
+.meet-us { background: #f6f8fb; }
+.meet-us-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
+.meet-us-photos { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.meet-us-photos img { width: 100%; height: 280px; object-fit: cover; border-radius: 10px; display: block; }
+.meet-us-text .section-text { max-width: 480px; }
+.meet-us-text .btn-primary { margin-top: 28px; }
+
+/* Service cards */
+.services { background: #fff; }
+.services-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 44px; }
+.svc-card { position: relative; overflow: hidden; border-radius: 12px; height: 310px; cursor: pointer; }
+.svc-card img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
+.svc-card:hover img { transform: scale(1.06); }
+.svc-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(to top, rgba(5,15,40,0.88) 0%, rgba(5,15,40,0.08) 55%);
+}
+.svc-text { position: absolute; bottom: 0; left: 0; right: 0; padding: 22px; color: #fff; }
+.svc-text h3 { font-family: 'Montserrat', sans-serif; font-size: 19px; font-weight: 700; margin-bottom: 10px; }
+.svc-link {
+  display: inline-flex; align-items: center; gap: 5px; color: rgba(255,255,255,0.82);
+  font-size: 13px; font-weight: 600; text-decoration: none;
+  border-bottom: 1px solid rgba(255,255,255,0.35); padding-bottom: 2px; transition: all 0.2s;
+}
+.svc-link:hover { color: #fff; border-color: #fff; }
+
+/* Team strip */
+.team-strip { background: #0d1b2a; color: #fff; text-align: center; padding: 80px 40px; }
+.team-strip .section-title { color: #fff; max-width: 680px; margin: 0 auto 28px; }
+
+/* Instructors */
+.instructors { background: #fff; }
+.instr-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
+.instr-photos { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.instr-photos img { width: 100%; height: 240px; object-fit: cover; border-radius: 10px; display: block; }
+.instr-text .section-text { max-width: 480px; margin-bottom: 28px; }
+
+/* DSD strip */
+.dsd-strip {
+  background: #f6f8fb;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 80px; gap: 48px; flex-wrap: wrap;
+}
+.dsd-text { max-width: 520px; }
+.dsd-text h2 { font-family: 'Montserrat', sans-serif; font-size: clamp(22px, 3vw, 32px); font-weight: 700; color: #0d1b2a; margin-bottom: 14px; }
+.dsd-text p { font-size: 16px; line-height: 1.8; color: #4a4a4a; margin-bottom: 28px; }
+.dsd-img { width: 360px; height: 300px; object-fit: cover; border-radius: 12px; flex-shrink: 0; }
+
+/* Dive sites */
+.dive-sites { background: #fff; }
+.sites-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-top: 40px; }
+.site-card {
+  background: #f6f8fb; border: 1px solid #e4e8ef; border-radius: 10px;
+  padding: 20px 16px; font-family: 'Montserrat', sans-serif; font-size: 14px;
+  font-weight: 600; color: #0d1b2a; cursor: pointer; text-decoration: none;
+  display: block; transition: all 0.2s;
+}
+.site-card:hover { border-color: #1a7fde; color: #1a7fde; transform: translateY(-2px); box-shadow: 0 4px 18px rgba(26,127,222,0.12); }
+.site-card .site-icon { font-size: 22px; margin-bottom: 10px; display: block; }
+
+/* Partners */
+.partners { background: #0d1b2a; text-align: center; padding: 70px 40px; }
+.partners h2 {
+  font-family: 'Montserrat', sans-serif; font-size: 19px; font-weight: 600;
+  color: rgba(255,255,255,0.82); margin-bottom: 38px;
+}
+.partner-logos { display: flex; align-items: center; justify-content: center; gap: 60px; flex-wrap: wrap; }
+.partner-logos img { height: 54px; object-fit: contain; filter: brightness(0) invert(1); opacity: 0.82; }
+.partners .btn-primary { margin-top: 48px; display: inline-block; }
+
+/* ── PAGE: DIVE CENTER ── */
+.page-hero {
+  padding-top: 70px; /* nav offset */
+  background: #0d1b2a; color: #fff; text-align: center;
+  padding-bottom: 60px; position: relative; overflow: hidden;
+}
+.page-hero::before {
+  content: ''; position: absolute; inset: 0;
+  background: url('https://cdn.prod.website-files.com/66b5c8bc961b45d1287337c6/6707e37da620424b30609fcf_IMG_7989.jpg') center/cover no-repeat;
+  opacity: 0.25;
+}
+.page-hero-content { position: relative; z-index: 1; padding: 60px 40px 0; }
+.page-hero h1 {
+  font-family: 'Montserrat', sans-serif; font-size: clamp(28px, 4vw, 52px);
+  font-weight: 800; line-height: 1.15; margin-bottom: 16px;
+}
+.page-hero p { font-size: 17px; opacity: 0.82; max-width: 620px; margin: 0 auto; line-height: 1.8; }
+
+/* DC features */
+.dc-features { background: #fff; }
+.dc-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; margin-top: 48px; }
+.dc-card {
+  background: #f6f8fb; border-radius: 12px; padding: 28px 24px;
+  border: 1px solid #e4e8ef;
+}
+.dc-card .dc-icon { font-size: 32px; margin-bottom: 16px; }
+.dc-card h3 { font-family: 'Montserrat', sans-serif; font-size: 17px; font-weight: 700; color: #0d1b2a; margin-bottom: 12px; }
+.dc-card p { font-size: 14px; line-height: 1.8; color: #555; }
+
+/* DC photos */
+.dc-photos { background: #f6f8fb; }
+.dc-photo-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 32px; }
+.dc-photo-grid img { width: 100%; height: 300px; object-fit: cover; border-radius: 12px; display: block; }
+
+/* Chill out */
+.chill { background: #fff; }
+.chill-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
+.chill-inner img { width: 100%; height: 380px; object-fit: cover; border-radius: 12px; }
+.chill-text .section-text { max-width: 480px; margin-bottom: 28px; }
+
+/* ── PAGE: COURSES ── */
+.courses-page { background: #fff; padding-top: 70px; }
+.courses-intro { padding: 60px 40px 0; text-align: center; }
+.courses-intro h1 {
+  font-family: 'Montserrat', sans-serif; font-size: clamp(28px, 4vw, 48px);
+  font-weight: 800; color: #0d1b2a; margin-bottom: 12px;
+}
+.courses-intro p { font-size: 16px; color: #555; max-width: 560px; margin: 0 auto; line-height: 1.8; }
+.courses-grid-wrap { padding: 48px 40px 80px; max-width: 1200px; margin: 0 auto; }
+.course-section-title {
+  font-family: 'Montserrat', sans-serif; font-size: 22px; font-weight: 700;
+  color: #0d1b2a; margin: 48px 0 20px; padding-bottom: 12px;
+  border-bottom: 2px solid #1a7fde; display: inline-block;
+}
+.courses-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px; margin-bottom: 16px; }
+.course-card {
+  background: #fff; border: 1px solid #e4e8ef; border-radius: 12px;
+  overflow: hidden; cursor: pointer; transition: all 0.2s;
+  text-decoration: none; display: block; color: inherit;
+}
+.course-card:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(26,127,222,0.12); border-color: #1a7fde; }
+.course-card img { width: 100%; height: 170px; object-fit: cover; display: block; }
+.course-card-body { padding: 16px; }
+.course-card-body h3 {
+  font-family: 'Montserrat', sans-serif; font-size: 14px; font-weight: 700;
+  color: #0d1b2a; margin-bottom: 10px;
+}
+.course-card-body .course-link {
+  font-size: 12px; color: #1a7fde; font-weight: 600;
+  display: flex; align-items: center; gap: 4px;
+}
+
+/* ── PAGE: PRICES ── */
+.prices-page { padding-top: 70px; background: #fff; }
+.prices-intro { background: #0d1b2a; color: #fff; padding: 70px 40px; text-align: center; }
+.prices-intro h1 {
+  font-family: 'Montserrat', sans-serif; font-size: clamp(28px, 4vw, 48px);
+  font-weight: 800; margin-bottom: 12px;
+}
+.prices-intro p { font-size: 16px; opacity: 0.78; max-width: 520px; margin: 0 auto; line-height: 1.8; }
+.prices-body { padding: 60px 40px; max-width: 900px; margin: 0 auto; }
+.price-category {
+  margin-bottom: 48px; background: #fff; border: 1px solid #e4e8ef;
+  border-radius: 14px; overflow: hidden;
+}
+.price-category-header {
+  background: #0d1b2a; padding: 18px 28px;
+  font-family: 'Montserrat', sans-serif; font-size: 16px; font-weight: 700;
+  color: #fff; letter-spacing: 0.3px;
+}
+.price-row {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 14px 28px; border-bottom: 1px solid #f0f2f5;
+  font-size: 15px;
+}
+.price-row:last-child { border-bottom: none; }
+.price-row:nth-child(odd) { background: #fafbfc; }
+.price-label { color: #333; }
+.price-value { font-family: 'Montserrat', sans-serif; font-weight: 700; color: #1a7fde; white-space: nowrap; }
+.price-note { font-size: 13px; color: #888; font-style: italic; }
+
+/* ── PAGE: CONTACT ── */
+.contact-page { padding-top: 70px; }
+.contact-hero { background: #0d1b2a; color: #fff; padding: 80px 40px; text-align: center; }
+.contact-hero h1 {
+  font-family: 'Montserrat', sans-serif; font-size: clamp(28px, 4vw, 48px);
+  font-weight: 800; margin-bottom: 12px;
+}
+.contact-hero p { font-size: 16px; opacity: 0.78; max-width: 520px; margin: 0 auto; line-height: 1.8; }
+.contact-body { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; padding: 70px 80px; max-width: 1100px; margin: 0 auto; }
+.contact-info h2 { font-family: 'Montserrat', sans-serif; font-size: 22px; font-weight: 700; color: #0d1b2a; margin-bottom: 24px; }
+.contact-item { display: flex; gap: 16px; margin-bottom: 24px; align-items: flex-start; }
+.contact-icon { font-size: 20px; margin-top: 2px; }
+.contact-item-text h4 { font-family: 'Montserrat', sans-serif; font-size: 13px; font-weight: 700; color: #888; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 4px; }
+.contact-item-text a, .contact-item-text p { font-size: 16px; color: #0d1b2a; text-decoration: none; line-height: 1.6; }
+.contact-item-text a:hover { color: #1a7fde; }
+.contact-form h2 { font-family: 'Montserrat', sans-serif; font-size: 22px; font-weight: 700; color: #0d1b2a; margin-bottom: 24px; }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.form-group { margin-bottom: 16px; }
+.form-group label { display: block; font-size: 13px; font-weight: 600; color: #555; margin-bottom: 6px; font-family: 'Montserrat', sans-serif; }
+.form-group input, .form-group textarea, .form-group select {
+  width: 100%; border: 1.5px solid #e0e4ec; border-radius: 8px;
+  padding: 12px 14px; font-size: 15px; font-family: 'Open Sans', sans-serif;
+  color: #1a1a1a; background: #fff; transition: border-color 0.2s;
+  outline: none;
+}
+.form-group input:focus, .form-group textarea:focus, .form-group select:focus { border-color: #1a7fde; }
+.form-group textarea { height: 120px; resize: vertical; }
+.form-submit { width: 100%; padding: 15px; border-radius: 8px; font-size: 16px; font-weight: 700; }
+.map-embed { width: 100%; height: 220px; border-radius: 10px; border: none; margin-top: 24px; }
+
+/* ── FOOTER ── */
+footer { background: #050f1e; padding: 52px 40px 28px; color: rgba(255,255,255,0.62); }
+.footer-inner {
+  max-width: 1100px; margin: 0 auto;
+  display: flex; justify-content: space-between; align-items: flex-start;
+  flex-wrap: wrap; gap: 36px; padding-bottom: 36px;
+  border-bottom: 1px solid rgba(255,255,255,0.09);
+}
+.footer-logo img { height: 36px; margin-bottom: 14px; display: block; }
+.footer-logo p { font-size: 13px; line-height: 1.7; color: rgba(255,255,255,0.45); max-width: 240px; }
+.footer-links h4 {
+  font-family: 'Montserrat', sans-serif; font-size: 11px; font-weight: 700;
+  letter-spacing: 2.5px; text-transform: uppercase; color: rgba(255,255,255,0.35);
+  margin-bottom: 16px;
+}
+.footer-links a {
+  display: block; color: rgba(255,255,255,0.6); text-decoration: none;
+  font-size: 14px; margin-bottom: 11px; cursor: pointer; transition: color 0.2s;
+}
+.footer-links a:hover { color: #fff; }
+.footer-contact h4 {
+  font-family: 'Montserrat', sans-serif; font-size: 11px; font-weight: 700;
+  letter-spacing: 2.5px; text-transform: uppercase; color: rgba(255,255,255,0.35);
+  margin-bottom: 16px;
+}
+.footer-contact p { font-size: 14px; line-height: 2; }
+.footer-contact a { color: rgba(255,255,255,0.6); text-decoration: none; }
+.footer-contact a:hover { color: #fff; }
+.footer-bottom {
+  max-width: 1100px; margin: 24px auto 0;
+  display: flex; justify-content: space-between; align-items: center;
+  flex-wrap: wrap; gap: 16px;
+}
+.footer-bottom p { font-size: 12px; color: rgba(255,255,255,0.28); }
+.social-links { display: flex; gap: 16px; }
+.social-links a { display: block; }
+.social-links img { width: 22px; height: 22px; object-fit: contain; filter: brightness(0) invert(1); opacity: 0.45; transition: opacity 0.2s; display: block; }
+.social-links img:hover { opacity: 1; }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 900px) {
+  nav { padding: 0 16px; }
+  .nav-links { display: none; }
+  section, .dsd-strip { padding: 50px 20px; }
+  .meet-us-inner, .instr-inner, .chill-inner, .contact-body { grid-template-columns: 1fr; }
+  .services-grid, .dc-grid { grid-template-columns: 1fr; }
+  .dc-photo-grid { grid-template-columns: 1fr; }
+  .sites-grid { grid-template-columns: 1fr 1fr; }
+  .dsd-img { width: 100%; }
+  .dsd-strip { flex-direction: column; }
+  .footer-inner { flex-direction: column; }
+  .reviews-bar { gap: 20px; padding: 20px; }
+  .contact-body { padding: 40px 20px; }
+  .prices-body { padding: 40px 20px; }
+  .courses-grid-wrap { padding: 32px 20px 60px; }
+  .form-row { grid-template-columns: 1fr; }
+  .page-hero-content { padding: 50px 20px 0; }
+}
+</style>
+</head>
+<body class="lang-de">
+
+<!-- ════════════════════════════════ NAV ════════════════════════════════ -->
+<nav id="main-nav">
+  <div class="nav-logo" onclick="showPage('home')">
+    <img src="https://cdn.prod.website-files.com/66b5c8bc961b45d1287337c6/66b5c96a5a9b2be6bcfe5fa0_Scuba-Squad-Logo.png" alt="Scuba Squad">
+  </div>
+  <div class="nav-links">
+    <a onclick="showPage('diving-center')">
+      <span data-de>Tauchbasis</span><span data-en>Dive Center</span>
+    </a>
+    <div class="nav-dropdown">
+      <div class="nav-dropdown-toggle">
+        <span data-de>Tauchen & Schnorcheln</span><span data-en>Diving & Snorkeling</span>
+      </div>
+      <div class="dropdown-menu">
+        <a onclick="showPage('courses')"><span data-de>Schnuppertauchen</span><span data-en>Try Diving (DSD)</span></a>
+        <a href="https://scubadivingsquad.com/tauch--schnorcheltouren" target="_blank"><span data-de>Touren</span><span data-en>Tours</span></a>
+        <a href="https://scubadivingsquad.com/padi-pro" target="_blank">PADI Pro <span data-de>Kurse</span><span data-en>Courses</span></a>
+        <a onclick="showPage('courses')">PADI <span data-de>Kurse</span><span data-en>Courses</span></a>
+        <div class="dropdown-section"><span data-de>Tauchplätze</span><span data-en>Dive Sites</span></div>
+        <a href="https://scubadivingsquad.com/hin-luk-bath" target="_blank">Hin Luk Bath</a>
+        <a href="https://scubadivingsquad.com/hin-raab-sud" target="_blank">Hin Raab</a>
+        <a href="https://scubadivingsquad.com/htms-chang" target="_blank">HTMS Chang</a>
+        <a href="https://scubadivingsquad.com/koh-rang-marine-national-park" target="_blank">Koh Rang NP</a>
+        <a href="https://scubadivingsquad.com/blueberry-hill" target="_blank">Blueberry Hill</a>
+        <a href="https://scubadivingsquad.com/koh-yak" target="_blank">Koh Yak</a>
+        <a href="https://scubadivingsquad.com/t11-ship-wreck" target="_blank">T11 Ship Wreck</a>
+        <a href="https://scubadivingsquad.com/three-finger-reef" target="_blank">Three Finger Reef</a>
+      </div>
+    </div>
+    <a onclick="showPage('prices')"><span data-de>Preise</span><span data-en>Prices</span></a>
+    <a href="https://scubadivingsquad.com/about-koh-chang" target="_blank">
+      <span data-de>Über Koh Chang</span><span data-en>About Koh Chang</span>
+    </a>
+    <a onclick="showPage('contact')" class="nav-cta">
+      <span data-de>Jetzt buchen</span><span data-en>Book now</span>
+    </a>
+    <div class="lang-switcher">
+      <button class="lang-btn active" onclick="setLang('de')">DE</button>
+      <button class="lang-btn" onclick="setLang('en')">EN</button>
+    </div>
+  </div>
+</nav>
+
+<!-- ════════════════════════════════ PAGE: HOME ════════════════════════════════ -->
+<div class="page active" id="page-home">
+
+  <!-- Hero -->
+  <section class="hero" style="padding:0;">
+    <div class="hero-bg"></div>
+    <video class="hero-video" autoplay muted loop playsinline>
+      <source src="https://cdn.prod.website-files.com/66b5c8bc961b45d1287337c6/6707c72370be866462ebc2e3_Du%20hast%20dir%20Traum-transcode.mp4" type="video/mp4">
+    </video>
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <h1>
+        <span data-de>Deutsche Tauchbasis<br>auf Koh Chang</span>
+        <span data-en>German Dive Center<br>on Koh Chang</span>
+      </h1>
+      <p class="hero-sub">The Scuba Squad &ndash; PADI 5-Star IDC Center</p>
+      <div class="hero-btns">
+        <button class="btn-primary" onclick="showPage('prices')">
+          <span data-de>Preise</span><span data-en>Prices</span>
+        </button>
+        <button class="btn-outline" onclick="showPage('courses')">
+          <span data-de>Tauchkurse</span><span data-en>Dive Courses</span>
+        </button>
+      </div>
+    </div>
+    <div class="scroll-hint">↓</div>
+  </section>
+
+  <!-- Reviews bar -->
+  <div class="reviews-bar">
+    <h2 data-de>Was unsere Kunden sagen!</h2>
+    <h2 data-en>What our customers say!</h2>
+    <div class="review-logos">
+      <a href="https://g.co/kgs/CgL1mBp" target="_blank">
+        <img src="https://cdn.prod.website-files.com/66b5c8bc961b45d1287337c6/6707ba3f8369cc822f2ab54e_Google-Logo.svg" alt="Google Reviews">
+      </a>
+      <a href="https://www.tripadvisor.com/Attraction_Review-g580110-d27138189-Reviews-The_Scuba_Squad_PADI_Dive_Center_Deutsche_Tauchbasis-Ko_Chang_Trat_Province.html" target="_blank">
+        <img src="https://cdn.prod.website-files.com/66b5c8bc961b45d1287337c6/6707ba3fd4f39939ca23d45d_Tripadvisor_lockup_horizontal_secondary_registered.svg" alt="TripAdvisor">
+      </a>
+    </div>
+  </div>
+
+  <!-- Meet us — 2 photos side by side, no overlap -->
+  <section class="meet-us">
+    <div class="container">
+      <div class="meet-us-inner">
+        <div class="meet-us-photos">
+          <img src="https://cdn.prod.website-files.com/66b5c8bc961b45d1287337c6/6707af709991e0375b153114_Basti%20%26%20Schankar%20(1).jpg" alt="Basti & Schankar">
+          <img src="https://cdn.prod.website-files.com/66b5c8bc961b45d1287337c6/6707af8d07c187cf159a6667_Team%20Boat%20(1).jpg" alt="Team Boat">
+        </div>
+        <div class="meet-us-text">
+          <div class="section-label"><span data-de>Willkommen</span><span data-en>Welcome</span></div>
+          <h2 class="section-title">
+            <span data-de>Triff uns im Paradies</span>
+            <span data-en>Meet us in paradise</span>
+          </h2>
+          <p class="section-text">
+            <span data-de>Willkommen bei Scuba Squad, deiner deutschen Tauchbasis auf Ko Chang. Wir laden euch herzlich ein, uns an der Südspitze von Ko Chang im charmanten Fischerdorf Bang Bao zu besuchen. Ihr findet uns direkt am Parkplatz vor dem Pier.</span>
+            <span data-en>Welcome to Scuba Squad, your German-speaking dive center on Koh Chang. We warmly invite you to visit us at the southern tip of Koh Chang in the charming fishing village of Bang Bao — right at the parking area in front of the pier.</span>
+          </p>
+          <button class="btn-primary" onclick="showPage('courses')" style="margin-top:28px;">
+            <span data-de>Tauchkurse</span><span data-en>Dive Courses</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Services -->
+  <section class="services">
+    <div class="container">
+      <div class="section-label"><span data-de>Entdecke</span><span data-en>Explore</span></div>
+      <h2 class="section-title"><span data-de>Was wir anbieten</span><span data-en>What we offer</span></h2>
+      <div class="services-grid">
+        <div class="svc-card" onclick="window.open('https://scubadivingsquad.com/htms-chang','_blank')">
+          <img src="https://cdn.prod.website-files.com/66b5c8bc961b45d1287337c6/6707da856e9cc5d7388e2b55__DSC1478%20(1).jpg" alt="HTMS Chang">
+          <div class="svc-overlay"></div>
+          <div class="svc-text">
+            <h3>HTMS Chang</h3>
+            <span class="svc-link"><span data-de>Mehr Infos</span><span data-en>Learn more</span> →</span>
+          </div>
+        </div>
+        <div class="svc-card" onclick="showPage('courses')">
+          <img src="https://cdn.prod.website-files.com/66b5c8bc961b45d128733843/671890fc1881d5769f781767_DSD%201-2.jpg" alt="Schnuppertauchen">
+          <div class="svc-overlay"></div>
+          <div class="svc-text">
+            <h3><span data-de>5 Gründe zu tauchen</span><span data-en>5 reasons to dive</span></h3>
+            <span class="svc-link"><span data-de>Mehr Infos</span><span data-en>Learn more</span> →</span>
+          </div>
+        </div>
+        <div class="svc-card" onclick="showPage('diving-center')">
+          <img src="https://cdn.prod.website-files.com/66b5c8bc961b45d1287337c6/6707af8d07c187cf159a6667_Team%20Boat%20(1).jpg" alt="Unser Boot">
+          <div class="svc-overlay"></div>
+          <div class="svc-text">
+            <h3><span data-de>Unser Boot</span><span data-en>Our Boat</span></h3>
+            <span class="svc-link"><span data-de>Mehr Infos</span><span data-en>Learn more</span> →</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Team strip -->
+  <div class="team-strip">
+    <div class="container">
+      <h2 class="section-title" data-de>Unser Team von zertifizierten Ausbildern ist hier, um deine Wünsche zu verwirklichen.</h2>
+      <h2 class="section-title" data-en>Our team of certified instructors is here to make your dreams come true.</h2>
+      <button class="btn-primary" onclick="showPage('contact')">
+        <span data-de>Kontakt</span><span data-en>Contact us</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Instructors -->
+  <section class="instructors">
+    <div class="container">
+      <div class="instr-inner">
+        <div class="instr-text">
+          <div class="section-label"><span data-de>Unser Team</span><span data-en>Our Team</span></div>
+          <h2 class="section-title">
+            <span data-de>Deutschsprachige Leitung und Tauchlehrer</span>
+            <span data-en>German-speaking management and instructors</span>
+          </h2>
+          <p class="section-text">
+            <span data-de>Obwohl unser Team international aufgestellt ist, sprechen die meisten unserer Tauchlehrer und Tauchguides Deutsch. Viele unserer Tauchprofis kommen aus Deutschland, Österreich und der Schweiz. Falls Sie sich mit Englisch nicht ganz wohlfühlen, können wir Ihnen also versichern: Bei uns sind Sie in guten Händen!</span>
+            <span data-en>Although our team is internationally diverse, most of our dive instructors and guides speak German. Many of our dive professionals come from Germany, Austria, and Switzerland. If you're not entirely comfortable with English, we can assure you: you're in good hands with us!</span>
+          </p>
+          <button class="btn-primary" onclick="showPage('courses')" style="margin-top:28px;">
+            <span data-de>Tauchkurse</span><span data-en>Dive Courses</span>
+          </button>
+        </div>
+        <div class="instr-photos">
+          <img src="https://cdn.prod.website-files.com/66b5c8bc961b45d1287337c6/6707da856e9cc5d7388e2b55__DSC1478%20(1).jpg" alt="Tauchlehrer">
+          <img src="https://cdn.prod.website-files.com/66b5c8bc961b45d1287337c6/6707af709991e0375b153114_Basti%20%26%20Schankar%20(1).jpg" alt="Team">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DSD -->
+  <div class="dsd-strip">
+    <div class="dsd-text">
+      <div class="section-label"><span data-de>Für Einsteiger</span><span data-en>For beginners</span></div>
+      <h2><span data-de>Schnuppertauchen</span><span data-en>Try Scuba Diving (DSD)</span></h2>
+      <p>
+        <span data-de>Erlebe die Unterwasserwelt zum ersten Mal! Kein Zertifikat nötig – wir zeigen dir alles, was du wissen musst.</span>
+        <span data-en>Experience the underwater world for the first time! No certification needed — we'll show you everything you need to know.</span>
+      </p>
+      <button class="btn-primary" onclick="showPage('courses')">
+        <span data-de>Mehr erfahren</span><span data-en>Learn more</span>
+      </button>
+    </div>
+    <img class="dsd-img" src="https://cdn.prod.website-files.com/66b5c8bc961b45d128733843/671890fc1881d5769f781767_DSD%201-2.jpg" alt="Schnuppertauchen">
+  </div>
+
+  <!-- Dive sites -->
+  <section class="dive-sites">
+    <div class="container">
+      <div class="section-label"><span data-de>Erkunde</span><span data-en>Explore</span></div>
+      <h2 class="section-title"><span data-de>Unsere Tauchplätze</span><span data-en>Our Dive Sites</span></h2>
+      <div class="sites-grid">
+        <a class="site-card" href="https://scubadivingsquad.com/hin-luk-bath" target="_blank"><span class="site-icon">🐠</span>Hin Luk Bath</a>
+        <a class="site-card" href="https://scubadivingsquad.com/hin-raab-sud" target="_blank"><span class="site-icon">🪸</span>Hin Raab</a>
+        <a class="site-card" href="https://scubadivingsquad.com/htms-chang" target="_blank"><span class="site-icon">⚓</span>HTMS Chang</a>
+        <a class="site-card" href="https://scubadivingsquad.com/koh-rang-marine-national-park" target="_blank"><span class="site-icon">🌊</span>Koh Rang Marine NP</a>
+        <a class="site-card" href="https://scubadivingsquad.com/blueberry-hill" target="_blank"><span class="site-icon">🐟</span>Blueberry Hill</a>
+        <a class="site-card" href="https://scubadivingsquad.com/koh-yak" target="_blank"><span class="site-icon">🏝️</span>Koh Yak</a>
+        <a class="site-card" href="https://scubadivingsquad.com/t11-ship-wreck" target="_blank"><span class="site-icon">🚢</span>T11 Ship Wreck</a>
+        <a class="site-card" href="https://scubadivingsquad.com/three-finger-reef" target="_blank"><span class="site-icon">🐙</span>Three Finger Reef</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Partners -->
+  <div class="partners">
+    <h2><span data-de>Wir sind stolzer Partner der PADI & Asia Scuba Instructors</span><span data-en>We are proud partners of PADI & Asia Scuba Instructors</span></h2>
+    <div class="partner-logos">
+      <img src="https://cdn.prod.website-files.com/66b5c8bc961b45d1287337c6/6707db863053a7a98634b85b_PADI-logo.jpg" alt="PADI">
+      <img src="https://cdn.prod.website-files.com/66b5c8bc961b45d1287337c6/6891923ff2e93fb24cb28b01_Asia-Scuba-Instructors-Logo.webp" alt="Asia Scuba Instructors">
+    </div>
+    <button class="btn-primary" onclick="showPage('courses')" style="margin-top:44px; display:inline-block;">
+      <span data-de>Zu den Tauchkursen</span><span data-en>View dive courses</span>
+    </button>
+  </div>
+
+  <div id="home-footer"></div>
+</div><!-- /page-home -->
+
+<!-- ════════════════════════════════ PAGE: DIVING CENTER ════════════════════════════════ -->
+<div class="page" id="page-diving-center">
+
+  <div class="page-hero" style="padding-top:70px;">
+    <div class="page-hero-content">
+      <div class="section-label" style="color:#5ba8ff; justify-content:center; display:flex;">
+        <span data-de>Über uns</span><span data-en>About us</span>
+      </div>
+      <h1>
+        <span data-de>Tauchbasis</span><span data-en>Dive Center</span>
+      </h1>
+      <p>
+        <span data-de>Unsere Leidenschaft besteht darin, erstklassige Kurse anzubieten und einzigartige Taucherlebnisse in Thailand zu ermöglichen.</span>
+        <span data-en>Our passion is to offer first-class courses and enable unique diving experiences in Thailand.</span>
+      </p>
+    </div>
+  </div>
+
+  <section class="dc-features">
+    <div class="container">
+      <div class="dc-grid">
+        <div class="dc-card">
+          <div class="dc-icon">🎽</div>
+          <h3><span data-de>Unser Equipment</span><span data-en>Our Equipment</span></h3>
+          <p>
+            <span data-de>Sicherheit hat für uns höchste Priorität. Unsere Ausrüstung ist neu, top gepflegt und von erstklassiger Qualität. Wir bieten Tauchen mit Nitrox an und die Möglichkeit, mit unseren Unterwasser-Scootern die maritime Welt aus einer neuen Perspektive zu bestaunen.</span>
+            <span data-en>Safety is our top priority. Our equipment is new, meticulously maintained, and of the highest quality. We offer diving with Nitrox and the opportunity to explore the underwater world from a new perspective with our underwater scooters.</span>
+          </p>
+        </div>
+        <div class="dc-card">
+          <div class="dc-icon">🤿</div>
+          <h3><span data-de>Unsere Tauchlehrer</span><span data-en>Our Instructors</span></h3>
+          <p>
+            <span data-de>Unser kompetentes Personal stellt sicher, dass du dich jederzeit sicher und willkommen fühlst. Einige unserer Tauchlehrer haben mehr als 30 Jahre Erfahrung. Wir bieten alle Kurse auf Deutsch, Englisch und auf Anfrage auch in weiteren Sprachen an.</span>
+            <span data-en>Our skilled staff ensures you feel safe and welcome at all times. Some of our instructors have over 30 years of experience. We offer all courses in German, English, and upon request in other languages.</span>
+          </p>
+        </div>
+        <div class="dc-card">
+          <div class="dc-icon">⛵</div>
+          <h3><span data-de>Unser Boot</span><span data-en>Our Boat</span></h3>
+          <p>
+            <span data-de>Unser geräumiges Tauchboot bietet Platz für alle Taucher und Schnorchler, verfügt über ausreichend schattige Bereiche und lädt zur Geselligkeit ein. Ein tägliches thailändisches Buffet mit Getränken und Obst/Snacks sorgt für die beste Zeit!</span>
+            <span data-en>Our spacious dive boat has plenty of room for all divers and snorkelers, shaded rest areas, and a social atmosphere. A daily Thai buffet with drinks, fruit, and snacks ensures you have the best time possible!</span>
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="team-strip">
+    <div class="container">
+      <h2 class="section-title" data-de>Unser Team von zertifizierten Ausbildern ist hier, um deine Wünsche zu verwirklichen.</h2>
+      <h2 class="section-title" data-en>Our team of certified instructors is here to make your dreams come true.</h2>
+      <button class="btn-primary" onclick="showPage('contact')">
+        <span data-de>Kontakt</span><span data-en>Contact us</span>
+      </button>
+    </div>
+  </div>
+
+  <section class="chill">
+    <div class="container">
+      <div class="chill-inner">
+        <img src="https://cdn.prod.website-files.com/66b5c8bc961b45d1287337c6/6707e37da620424b30609fcf_IMG_7989.jpg" alt="Dive Base">
+        <div class="chill-text">
+          <div class="section-label"><span data-de>Chill-out</span><span data-en>Relax with us</span></div>
+          <h2 class="section-title">
+            <span data-de>Können wir dir helfen?</span>
+            <span data-en>Can we help you?</span>
+          </h2>
+          <p class="section-text">
+            <span data-de>Ob du Inspiration für dein nächstes Tauchabenteuer suchst oder nach einem aufregenden Tag unter der Wasseroberfläche einen wohlverdienten Drink genießen möchtest – fühl dich frei, es in unserer wunderschön gestalteten Chill-out-Lounge Sabai Sabai mit uns zu nehmen! Wir plaudern immer gerne mit dir!</span>
+            <span data-en>Whether you're looking for inspiration for your next diving adventure or want to enjoy a well-deserved drink after an exciting day underwater — feel free to join us in our beautifully designed Sabai Sabai chill-out lounge! We always love to chat with you!</span>
+          </p>
+          <button class="btn-primary" onclick="showPage('contact')" style="margin-top:8px;">
+            <span data-de>Kontakt</span><span data-en>Contact us</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="dc-photos" style="background:#f6f8fb;">
+    <div class="container">
+      <div class="section-label"><span data-de>Unsere Tauchbasis</span><span data-en>Our Dive Base</span></div>
+      <h2 class="section-title">
+        <span data-de>Komm gerne vorbei!</span>
+        <span data-en>Come visit us!</span>
+      </h2>
+      <div class="dc-photo-grid">
+        <img src="https://cdn.prod.website-files.com/66b5c8bc961b45d1287337c6/6707e37515c1eb0cc2bfc3b0__DSC1466-Enhanced-NR.jpg" alt="Tauchbasis 1">
+        <img src="https://cdn.prod.website-files.com/66b5c8bc961b45d1287337c6/6707e375f83f9bd2b0b14dca__DSC1527.jpg" alt="Tauchbasis 2">
+      </div>
+    </div>
+  </section>
+
+  <div id="dc-footer"></div>
+</div><!-- /page-diving-center -->
+
+<!-- ════════════════════════════════ PAGE: COURSES ════════════════════════════════ -->
+<div class="page" id="page-courses">
+  <div class="courses-page">
+    <div class="courses-intro">
+      <div class="section-label" style="justify-content:center; display:flex;">
+        <span data-de>Unsere Kurse</span><span data-en>Our Courses</span>
+      </div>
+      <h1><span data-de>PADI Kurse</span><span data-en>PADI Courses</span></h1>
+      <p>
+        <span data-de>Stöbere durch unser Angebot. Zögere nicht, uns zu kontaktieren, wenn du Fragen hast!</span>
+        <span data-en>Browse our course offering. Don't hesitate to contact us if you have any questions!</span>
+      </p>
+    </div>
+
+    <div class="courses-grid-wrap">
+
+      <!-- Beginner -->
+      <div class="course-section-title" data-de>Einsteiger</div>
+      <div class="course-section-title" data-en>Beginners</div>
+      <div class="courses-grid">
+        <a class="course-card" href="https://scubadivingsquad.com/courses/schnuppertauchen" target="_blank">
+          <img src="https://cdn.prod.website-files.com/66b5c8bc961b45d128733843/671890fc1881d5769f781767_DSD%201-2.jpg" alt="Schnuppertauchen">
+          <div class="course-card-body">
+            <h3><span data-de>Schnuppertauchen (DSD)</span><span data-en>Try Diving (DSD)</span></h3>
+            <div class="course-link"><span data-de>Mehr erfahren</span><span data-en>Learn more</span> →</div>
+          </div>
+        </a>
+        <a class="course-card" href="https://scubadivingsquad.com/courses/snorkelling-non-diving" target="_blank">
+          <img src="https://cdn.prod.website-files.com/66b5c8bc961b45d128733843/671890cb9c105d660c0fb068_snorkeling-in-hawaii-cover-photo--1536x520.png" alt="Snorkeling">
+          <div class="course-card-body">
+            <h3>Snorkeling / Non-Diving</h3>
+            <div class="course-link"><span data-de>Mehr erfahren</span><span data-en>Learn more</span> →</div>
+          </div>
+        </a>
+        <a class="course-card" href="https://scubadivingsquad.com/courses/fun-dives" target="_blank">
+          <img src="https://cdn.prod.website-files.com/66b5c8bc961b45d128733843/671fe75725992eb92ddf3d57_66b5c8bc961b45d128733982_pexels-harvey-clements-15763632.webp" alt="Fun Dives">
+          <div class="course-card-body">
+            <h3>Fun Dives</h3>
+            <div class="course-link"><span data-de>Mehr erfahren</span><span data-en>Learn more</span> →</div>
+          </div>
+        </a>
+      </div>
+
+      <!-- PADI Zertifizierungen -->
+      <div class="course-section-title" data-de>PADI Zertifizierungen</div>
+      <div class="course-section-title" data-en>PADI Certifications</div>
+      <div class="courses-grid">
+        <a class="course-card" href="https://scubadivingsquad.com/courses/open-water" target="_blank">
+          <img src="https://cdn.prod.website-files.com/66b5c8bc961b45d128733843/67177fa17409e1b94fc2f095__DSC1835.jpg" alt="Open Water">
+          <div class="course-card-body">
+            <h3>PADI Open Water</h3>
+            <div class="course-link"><span data-de>Mehr erfahren</span><span data-en>Learn more</span> →</div>
+          </div>
+        </a>
+        <a class="course-card" href="https://scubadivingsquad.com/courses/advanced" target="_blank">
+          <img src="https://cdn.prod.website-files.com/66b5c8bc961b45d128733843/671780832c3255d5aca4f006_GOPR2206.jpeg" alt="Advanced">
+          <div class="course-card-body">
+            <h3>Advanced Open Water</h3>
+            <div class="course-link"><span data-de>Mehr erfahren</span><span data-en>Learn more</span> →</div>
+          </div>
+        </a>
+        <a class="course-card" href="https://scubadivingsquad.com/courses/rescue-efr" target="_blank">
+          <img src="https://cdn.prod.website-files.com/66b5c8bc961b45d128733843/6717809883b1917d5e187636_Rescue-Diver-Certification.jpg" alt="Rescue Diver">
+          <div class="course-card-body">
+            <h3>Rescue Diver + EFR</h3>
+            <div class="course-link"><span data-de>Mehr erfahren</span><span data-en>Learn more</span> →</div>
+          </div>
+        </a>
+        <a class="course-card" href="https://scubadivingsquad.com/courses/free-diver" target="_blank">
+          <img src="https://cdn.prod.website-files.com/66b5c8bc961b45d128733843/6717813770bd5fbc0a6cc766_304785057_508548447939317_8580716814690632274_n-1.jpg" alt="Freediver">
+          <div class="course-card-body">
+            <h3>Freediver</h3>
+            <div class="course-link"><span data-de>Mehr erfahren</span><span data-en>Learn more</span> →</div>
+          </div>
+        </a>
+        <a class="course-card" href="https://scubadivingsquad.com/courses/spezial-kurse" target="_blank">
+          <img src="https://cdn.prod.website-files.com/66b5c8bc961b45d128733843/67189db8a03870a22471ff6b_TSS-Wreck-Diver-Koh-Chang-1280x640.jpg" alt="Spezial">
+          <div class="course-card-body">
+            <h3><span data-de>Spezial Kurse</span><span data-en>Specialty Courses</span></h3>
+            <div class="course-link"><span data-de>Mehr erfahren</span><span data-en>Learn more</span> →</div>
+          </div>
+        </a>
+      </div>
+
+      <!-- PADI Pro -->
+      <div class="course-section-title" data-de>PADI Pro Kurse</div>
+      <div class="course-section-title" data-en>PADI Pro Courses</div>
+      <div class="courses-grid">
+        <a class="course-card" href="https://scubadivingsquad.com/courses/divemaster" target="_blank">
+          <img src="https://cdn.prod.website-files.com/66b5c8bc961b45d128733843/689313b7bc1d2191d0aaafdb_divemaster.png" alt="Divemaster">
+          <div class="course-card-body">
+            <h3>Divemaster</h3>
+            <div class="course-link"><span data-de>Mehr erfahren</span><span data-en>Learn more</span> →</div>
+          </div>
+        </a>
+        <a class="course-card" href="https://scubadivingsquad.com/courses/assistant-instructor" target="_blank">
+          <img src="https://cdn.prod.website-files.com/66b5c8bc961b45d128733843/671894c85493ec0d654ceecb_divemaster.jpg" alt="Assistant Instructor">
+          <div class="course-card-body">
+            <h3>Assistant Instructor</h3>
+            <div class="course-link"><span data-de>Mehr erfahren</span><span data-en>Learn more</span> →</div>
+          </div>
+        </a>
+        <a class="course-card" href="https://scubadivingsquad.com/courses/idc-instructor-development-course" target="_blank">
+          <img src="https://cdn.prod.website-files.com/66b5c8bc961b45d128733843/689313fcfbe578d2e0a8511b_IDC.jpg" alt="IDC">
+          <div class="course-card-body">
+            <h3>IDC (Instructor Development Course)</h3>
+            <div class="course-link"><span data-de>Mehr erfahren</span><span data-en>Learn more</span> →</div>
+          </div>
+        </a>
+        <a class="course-card" href="https://scubadivingsquad.com/courses/msdt-master-scuba-diver-trainer" target="_blank">
+          <img src="https://cdn.prod.website-files.com/66b5c8bc961b45d128733843/671894c85493ec0d654ceecb_divemaster.jpg" alt="MSDT">
+          <div class="course-card-body">
+            <h3>MSDT – Master Scuba Diver Trainer</h3>
+            <div class="course-link"><span data-de>Mehr erfahren</span><span data-en>Learn more</span> →</div>
+          </div>
+        </a>
+        <a class="course-card" href="https://scubadivingsquad.com/courses/idc-staff-instructor" target="_blank">
+          <img src="https://cdn.prod.website-files.com/66b5c8bc961b45d128733843/68931453dcc3e06dcb399c9c_IDCStaff.jpg" alt="IDC Staff">
+          <div class="course-card-body">
+            <h3>IDC Staff Instructor</h3>
+            <div class="course-link"><span data-de>Mehr erfahren</span><span data-en>Learn more</span> →</div>
+          </div>
+        </a>
+      </div>
+
+    </div><!-- /courses-grid-wrap -->
+  </div>
+  <div id="courses-footer"></div>
+</div><!-- /page-courses -->
+
+<!-- ════════════════════════════════ PAGE: PRICES ════════════════════════════════ -->
+<div class="page" id="page-prices">
+  <div class="prices-page">
+    <div class="prices-intro">
+      <div class="section-label" style="color:#5ba8ff; justify-content:center; display:flex; margin-bottom:12px;">
+        <span data-de>Unsere Preise</span><span data-en>Our Prices</span>
+      </div>
+      <h1><span data-de>Preise</span><span data-en>Prices</span></h1>
+      <p>
+        <span data-de>Für eine Beratung zu unseren Kursen stehen wir gerne zur Verfügung!</span>
+        <span data-en>We are happy to advise you on our courses!</span>
+      </p>
+    </div>
+
+    <div class="prices-body">
+
+      <div class="price-category">
+        <div class="price-category-header" data-de>Tauch- & Schnorcheltouren</div>
+        <div class="price-category-header" data-en>Diving & Snorkeling Tours</div>
+        <div class="price-row"><span class="price-label"><span data-de>2 Tauchgänge</span><span data-en>2 dives</span></span><span class="price-value">THB 3,500</span></div>
+        <div class="price-row"><span class="price-label"><span data-de>3 Tauchgänge</span><span data-en>3 dives</span></span><span class="price-value">THB 4,300</span></div>
+        <div class="price-row"><span class="price-label"><span data-de>Tauchpakete</span><span data-en>Dive packages</span></span><span class="price-value price-note"><span data-de>auf Anfrage</span><span data-en>on request</span></span></div>
+        <div class="price-row"><span class="price-label"><span data-de>Schnorcheln / Nichttaucher</span><span data-en>Snorkeling / Non-diver</span></span><span class="price-value">THB 1,000</span></div>
+        <div class="price-row"><span class="price-label">Freediving</span><span class="price-value price-note"><span data-de>auf Anfrage</span><span data-en>on request</span></span></div>
+        <div class="price-row"><span class="price-label"><span data-de>2 Tauchgänge + 1 Nachttauchgang</span><span data-en>2 dives + 1 night dive</span></span><span class="price-value">THB 5,000</span></div>
+        <div class="price-row"><span class="price-label">Refresher</span><span class="price-value">THB 1,000</span></div>
+        <div class="price-row"><span class="price-label">Nitrox / Tank</span><span class="price-value">THB 300</span></div>
+      </div>
+
+      <div class="price-category">
+        <div class="price-category-header" data-de>Schnuppertauchen</div>
+        <div class="price-category-header" data-en>Try Diving (DSD)</div>
+        <div class="price-row"><span class="price-label"><span data-de>Discover Scuba Diving (2 Tauchgänge)</span><span data-en>Discover Scuba Diving (2 dives)</span></span><span class="price-value">THB 5,000</span></div>
+        <div class="price-row"><span class="price-label"><span data-de>Bubblemaker (Kinder, 1 Tauchgang)</span><span data-en>Bubblemaker (children, 1 dive)</span></span><span class="price-value">THB 3,500</span></div>
+      </div>
+
+      <div class="price-category">
+        <div class="price-category-header">PADI <span data-de>Kurse</span><span data-en>Courses</span></div>
+        <div class="price-row"><span class="price-label">PADI Open Water</span><span class="price-value">THB 16,000</span></div>
+        <div class="price-row"><span class="price-label">PADI Premium Open Water (<span data-de>Einzelkurs</span><span data-en>private course</span>)</span><span class="price-value">THB 24,950</span></div>
+        <div class="price-row"><span class="price-label">Advanced Open Water</span><span class="price-value">THB 15,000</span></div>
+        <div class="price-row"><span class="price-label">Rescue + EFR</span><span class="price-value">THB 19,500</span></div>
+        <div class="price-row"><span class="price-label">Rescue Diver</span><span class="price-value">THB 15,500</span></div>
+      </div>
+
+      <div class="price-category">
+        <div class="price-category-header">PADI <span data-de>Spezial Kurse</span><span data-en>Specialty Courses</span></div>
+        <div class="price-row"><span class="price-label">Emergency First Responder (EFR)</span><span class="price-value">THB 5,500</span></div>
+        <div class="price-row"><span class="price-label">Nitrox Specialty</span><span class="price-value">THB 8,000</span></div>
+        <div class="price-row"><span class="price-label">Scooter Specialty</span><span class="price-value">THB 11,000</span></div>
+        <div class="price-row"><span class="price-label">Deep Specialty</span><span class="price-value">THB 11,000</span></div>
+        <div class="price-row"><span class="price-label">Wreck Specialty</span><span class="price-value">THB 11,000</span></div>
+        <div class="price-row"><span class="price-label">Night Specialty</span><span class="price-value">THB 11,000</span></div>
+        <div class="price-row"><span class="price-label">Full Face Mask Specialty</span><span class="price-value">THB 11,000</span></div>
+        <div class="price-row"><span class="price-label">Freediver</span><span class="price-value">THB 10,000</span></div>
+      </div>
+
+      <div class="price-category">
+        <div class="price-category-header">PADI Pro <span data-de>Kurse</span><span data-en>Courses</span></div>
+        <div class="price-row"><span class="price-label">Divemaster</span><span class="price-value">THB 50,000</span></div>
+        <div class="price-row"><span class="price-label">Assistant Instructor</span><span class="price-value price-note"><span data-de>auf Anfrage</span><span data-en>on request</span></span></div>
+        <div class="price-row"><span class="price-label">IDC (Instructor Development Course)</span><span class="price-value price-note"><span data-de>auf Anfrage</span><span data-en>on request</span></span></div>
+        <div class="price-row"><span class="price-label">MSDT (Master Scuba Diver Trainer)</span><span class="price-value price-note"><span data-de>auf Anfrage</span><span data-en>on request</span></span></div>
+        <div class="price-row"><span class="price-label">IDC + MSDT</span><span class="price-value price-note"><span data-de>auf Anfrage</span><span data-en>on request</span></span></div>
+        <div class="price-row"><span class="price-label">IDC Staff Instructor</span><span class="price-value price-note"><span data-de>auf Anfrage</span><span data-en>on request</span></span></div>
+        <div class="price-row"><span class="price-label">Professional Package (OWD, AOWD, DM, IDC)</span><span class="price-value price-note"><span data-de>auf Anfrage</span><span data-en>on request</span></span></div>
+      </div>
+
+      <div style="text-align:center; margin-top: 16px;">
+        <button class="btn-primary" onclick="showPage('contact')">
+          <span data-de>Jetzt anfragen</span><span data-en>Get in touch</span>
+        </button>
+      </div>
+
+    </div>
+  </div>
+  <div id="prices-footer"></div>
+</div><!-- /page-prices -->
+
+<!-- ════════════════════════════════ PAGE: CONTACT ════════════════════════════════ -->
+<div class="page" id="page-contact">
+  <div class="contact-page">
+    <div class="contact-hero">
+      <div class="section-label" style="color:#5ba8ff; justify-content:center; display:flex; margin-bottom:12px;">
+        <span data-de>Schreib uns</span><span data-en>Get in touch</span>
+      </div>
+      <h1><span data-de>Kontakt</span><span data-en>Contact</span></h1>
+      <p>
+        <span data-de>Dein nächstes Taucherlebnis erwartet dich! Kontaktiere uns per E-Mail, Telefon oder über Social Media.</span>
+        <span data-en>Your next diving adventure awaits! Contact us by email, phone, or social media.</span>
+      </p>
+    </div>
+
+    <div class="contact-body">
+      <div class="contact-info">
+        <h2><span data-de>So erreichst du uns</span><span data-en>How to reach us</span></h2>
+        <div class="contact-item">
+          <div class="contact-icon">📍</div>
+          <div class="contact-item-text">
+            <h4><span data-de>Adresse</span><span data-en>Address</span></h4>
+            <a href="https://www.google.de/maps/place//data=!4m2!3m1!1s0x31041beb9ee251df:0x4647714e2d6fe6f9" target="_blank">No. 51/57, Moo 4, Koh Chang Sub-district,<br>Koh Chang District, Trat Province</a>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon">📞</div>
+          <div class="contact-item-text">
+            <h4><span data-de>Telefon</span><span data-en>Phone</span></h4>
+            <a href="tel:+66652377834">+66 652 377 834</a>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon">✉️</div>
+          <div class="contact-item-text">
+            <h4>E-Mail</h4>
+            <a href="mailto:info@scubadivingsquad.com">info@scubadivingsquad.com</a>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon">📱</div>
+          <div class="contact-item-text">
+            <h4>Social Media</h4>
+            <p>
+              <a href="https://www.instagram.com/scubasquad_kohchang" target="_blank">Instagram</a> &nbsp;·&nbsp;
+              <a href="https://www.facebook.com/scubasquadkohchang" target="_blank">Facebook</a> &nbsp;·&nbsp;
+              <a href="https://www.tiktok.com/@scubasquad_kohchang" target="_blank">TikTok</a>
+            </p>
+          </div>
+        </div>
+        <iframe class="map-embed"
+          src="https://maps.google.com/maps?q=No.+51/57+Moo+4+Koh+Chang+Bang+Bao&output=embed"
+          allowfullscreen loading="lazy">
+        </iframe>
+      </div>
+
+      <div class="contact-form">
+        <h2><span data-de>Nachricht senden</span><span data-en>Send a message</span></h2>
+        <div class="form-row">
+          <div class="form-group">
+            <label><span data-de>Vorname</span><span data-en>First name</span></label>
+            <input type="text" placeholder="">
+          </div>
+          <div class="form-group">
+            <label><span data-de>Nachname</span><span data-en>Last name</span></label>
+            <input type="text" placeholder="">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>E-Mail</label>
+          <input type="email" placeholder="">
+        </div>
+        <div class="form-group">
+          <label><span data-de>Betreff</span><span data-en>Subject</span></label>
+          <select>
+            <option data-de>Kursanfrage</option>
+            <option data-en>Course inquiry</option>
+            <option data-de>Buchungsanfrage</option>
+            <option data-en>Booking inquiry</option>
+            <option data-de>Allgemeine Frage</option>
+            <option data-en>General question</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label><span data-de>Nachricht</span><span data-en>Message</span></label>
+          <textarea placeholder="..."></textarea>
+        </div>
+        <button class="btn-primary form-submit" onclick="alert(document.body.classList.contains('lang-de') ? 'Danke! Wir melden uns bald bei dir.' : 'Thank you! We will get back to you soon.')">
+          <span data-de>Nachricht senden</span><span data-en>Send message</span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div id="contact-footer"></div>
+</div><!-- /page-contact -->
+
+<!-- ════════════════════════════════ FOOTER TEMPLATE ════════════════════════════════ -->
+<template id="footer-tpl">
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-logo">
+        <img src="https://cdn.prod.website-files.com/66b5c8bc961b45d1287337c6/66b5c96a5a9b2be6bcfe5fa0_Scuba-Squad-Logo.png" alt="Scuba Squad">
+        <p>
+          <span data-de>Deutsche Tauchbasis auf Koh Chang, Thailand. PADI 5-Star IDC Center.</span>
+          <span data-en>German dive center on Koh Chang, Thailand. PADI 5-Star IDC Center.</span>
+        </p>
+      </div>
+      <div class="footer-links">
+        <h4><span data-de>Seiten</span><span data-en>Pages</span></h4>
+        <a onclick="showPage('home')"><span data-de>Start</span><span data-en>Home</span></a>
+        <a onclick="showPage('diving-center')"><span data-de>Tauchbasis</span><span data-en>Dive Center</span></a>
+        <a onclick="showPage('courses')"><span data-de>Tauchkurse</span><span data-en>Dive Courses</span></a>
+        <a onclick="showPage('prices')"><span data-de>Preise</span><span data-en>Prices</span></a>
+        <a onclick="showPage('contact')"><span data-de>Kontakt</span><span data-en>Contact</span></a>
+      </div>
+      <div class="footer-contact">
+        <h4><span data-de>Kontakt</span><span data-en>Contact</span></h4>
+        <p>
+          <a href="tel:+66652377834">T: +66 652 377 834</a><br>
+          <a href="mailto:info@scubadivingsquad.com">E: info@scubadivingsquad.com</a>
+        </p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2024 The Scuba Squad · Bang Bao, Ko Chang, Thailand</p>
+      <div class="social-links">
+        <a href="https://www.instagram.com/scubasquad_kohchang" target="_blank"><img src="https://cdn.prod.website-files.com/66b5c8bc961b45d1287337c6/671feb93f30ef890ea218a52_instagram.webp" alt="Instagram"></a>
+        <a href="https://www.tiktok.com/@scubasquad_kohchang" target="_blank"><img src="https://cdn.prod.website-files.com/66b5c8bc961b45d1287337c6/671fec0e69d847d5a725fcff_tiktok-7002882_1280.webp" alt="TikTok"></a>
+        <a href="https://www.facebook.com/scubasquadkohchang" target="_blank"><img src="https://cdn.prod.website-files.com/66b5c8bc961b45d1287337c6/671feb9332c57154d24fe1d0_facebook.png" alt="Facebook"></a>
+        <a href="https://www.youtube.com/@ScubaSquadKoChang" target="_blank"><img src="https://cdn.prod.website-files.com/66b5c8bc961b45d1287337c6/671feb9360d9b0e863e4e2b4_youtube.png" alt="YouTube"></a>
+      </div>
+    </div>
+  </footer>
+</template>
+
+<script>
+// ── Inject footers ──
+['home','dc','courses','prices','contact'].forEach(id => {
+  const slot = document.getElementById(id + '-footer');
+  if (slot) {
+    const tpl = document.getElementById('footer-tpl');
+    slot.replaceWith(tpl.content.cloneNode(true));
+  }
+});
+
+// ── Language ──
+function setLang(lang) {
+  document.body.className = document.body.className.replace(/lang-\w+/, '') + ' lang-' + lang;
+  document.documentElement.lang = lang;
+  document.querySelectorAll('.lang-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.textContent.trim().toLowerCase() === lang);
+  });
+  try { localStorage.setItem('ss-lang', lang); } catch(e){}
+}
+
+// ── Page routing ──
+function showPage(name) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  const pg = document.getElementById('page-' + name);
+  if (pg) { pg.classList.add('active'); window.scrollTo({top: 0, behavior: 'smooth'}); }
+}
+
+// ── Restore saved language ──
+try {
+  const saved = localStorage.getItem('ss-lang');
+  if (saved === 'en') setLang('en');
+} catch(e){}
+</script>
+</body>
+</html>
